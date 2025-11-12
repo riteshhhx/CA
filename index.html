@@ -511,49 +511,75 @@ html:not(.light) .tool-logo:hover{filter:none;} /* reveal brand color on hover i
     </section>
 
     <!-- PROJECTS -->
-    <section id="projects">
-      <h2>Projects</h2>
-      <div class="grid two">
-        <!-- Project 1 -->
-        <div class="card project show">
-          <div class="pill">Case Study</div>
-          <h3>Monthly Financial Performance Dashboard</h3>
-          <div class="proj-img" style="margin-top:10px; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08); box-shadow:0 6px 18px rgba(0,0,0,.35);">
-            <img src="project-dashboard-placeholder.png" alt="Financial dashboard preview" style="width:100%; display:block; opacity:.92;">
-          </div>
-          <p><strong>Problem:</strong> Monthly reporting was manual and fragmented across sheets, slowing leadership visibility.</p>
-          <p><strong>My Role:</strong> Built a single‑source dashboard with KPI rollups (revenue, expenses, margins) and trend views.</p>
-          <p><strong>Tools:</strong> Excel (Pivot Tables, Index‑Match), Power Query, Power BI (optional rollout)</p>
-          <p><strong>Outcome:</strong> Reduced prep time and improved clarity in monthly reviews.</p>
-          <div class="skills">
-            <span class="skill">Excel Dashboards</span>
-            <span class="skill">Variance Trends</span>
-            <span class="skill">Reporting</span>
-          </div>
-        </div>
-        <!-- Project 3 -->
-        <div class="card project show">
-          <div class="pill">Research</div>
-          <h3>Market Segmentation & Audience Analysis</h3>
-          <div class="proj-img" style="margin-top:10px; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08); box-shadow:0 6px 18px rgba(0,0,0,.35);">
-            <img src="project-market-placeholder.png" alt="Market segmentation visuals" style="width:100%; display:block; opacity:.92;">
-          </div>
-          <p><strong>Problem:</strong> Campaigns lacked clear audience targeting and messaging.</p>
-          <p><strong>My Role:</strong> Ran primary research and segmented cohorts; mapped needs to messages.</p>
-          <p><strong>Tools:</strong> Surveys, Excel, basic stats</p>
-          <p><strong>Outcome:</strong> Improved campaign focus and content alignment.</p>
-          <div class="skills">
-            <span class="skill">Segmentation</span>
-            <span class="skill">Survey Design</span>
-            <span class="skill">Insights</span>
-          </div>
-        </div>
-        </div>
+   <!-- Projects Section with Separate Optimized Dashboard Images -->
+<section id="projects">
+  <h2>Projects</h2>
+  <div class="grid two">
+
+    <!-- Project 1: ABC Services Pvt Ltd — Financial Performance Dashboard -->
+    <div class="card project show">
+      <div class="pill">Case Study</div>
+      <h3>ABC Services Pvt Ltd — Financial Performance Dashboard</h3>
+      <div class="proj-img hover-zoom">
+        <img src="proj-img.jpg" alt="ABC Services Financial Dashboard" loading="lazy">
       </div>
-      <div style="text-align:center; margin-top:24px;">
-        <a class="btn-outline" id="coCurricularBtn" href="#co-curricular">Co‑Curricular</a>
+      <p><strong>Problem:</strong> The company needed a visual dashboard summarizing its financial performance from 2019 to 2024 for better strategic insight.</p>
+      <p><strong>My Role:</strong> Built and automated Excel charts showing growth trends, ratios, and year-over-year performance for ABC Services Pvt Ltd.</p>
+      <p><strong>Tools:</strong> Excel (Pivot Tables, Power Query), KPI Charts, Time-Series Analysis</p>
+      <p><strong>Outcome:</strong> Helped management quickly evaluate performance trends and make informed decisions.</p>
+      <div class="skills">
+        <span class="skill">Excel Automation</span>
+        <span class="skill">Financial Modelling</span>
+        <span class="skill">Visualization</span>
       </div>
-    </section>
+    </div>
+
+    <!-- Project 2: Sales, Expenses & Operating Profit Trend Dashboard -->
+    <div class="card project show">
+      <div class="pill">Case Study</div>
+      <h3>Sales, Expenses & Operating Profit Trend</h3>
+      <div class="proj-img hover-zoom">
+        <img src="project-market-placeholder.jpg" alt="Sales, Expenses & Operating Profit Trend Dashboard" loading="lazy">
+      </div>
+      <p><strong>Problem:</strong> The business lacked a consolidated view of year-wise sales, expense, and profit trends to evaluate operational performance.</p>
+      <p><strong>My Role:</strong> Created a multi-series Excel dashboard visualizing five key performance series across financial years 2020–2024.</p>
+      <p><strong>Tools:</strong> Excel Charts, Power Query, Data Visualization</p>
+      <p><strong>Outcome:</strong> Improved financial tracking and forecasting by enabling clear year-over-year trend comparisons.</p>
+      <div class="skills">
+        <span class="skill">Profit Analysis</span>
+        <span class="skill">Trend Modelling</span>
+        <span class="skill">Dashboard Design</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* Hover zoom and subtle animation for project dashboard images */
+.proj-img {
+  margin-top: 10px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 6px 18px rgba(0,0,0,.35);
+  transition: transform .4s ease, box-shadow .4s ease;
+}
+
+.proj-img img {
+  width: 100%;
+  display: block;
+  opacity: .95;
+  border-radius: 14px;
+  transition: transform .4s ease, opacity .4s ease;
+}
+
+.hover-zoom:hover img {
+  transform: scale(1.05);
+  opacity: 1;
+  box-shadow: 0 8px 24px rgba(215,192,138,.45);
+}
+</style>
 
     <!-- CO-CURRICULAR -->
     <section id="co-curricular">
