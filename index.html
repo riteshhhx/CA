@@ -70,7 +70,7 @@
       .hero-grid > .avatar{justify-self:center; margin-bottom:12px}
     }
     .avatar{width:140px;height:140px;border-radius:50%;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow);}
-    .avatar img{width:100%;height:100%;object-fit:cover;transform:translateZ(0);}
+    .avatar img{width:100%;height:100%;object-fit:cover;transform:translateZ(0);} 
     .avatar::before{content:"";position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(from 180deg,var(--accent),transparent 40%,var(--accent-2));filter:blur(6px);opacity:.55;z-index:0}
     .avatar::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(transparent 58%, rgba(215,192,138,.15));z-index:1;pointer-events:none}
     .avatar img{position:relative;z-index:2;animation:float 6s ease-in-out infinite;}
@@ -197,7 +197,7 @@ html:not(.light) .tool-logo:hover{filter:none;} /* reveal brand color on hover i
     #experience .timeline .item{position:relative; padding-left:28px}
     #experience .timeline .item::before{content:""; position:absolute; left:7px; top:10px; width:12px; height:12px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 0 rgba(215,192,138,.0); transition:.35s ease; opacity:.95}
     #experience .timeline .item.focus{transform:translateY(-3px); border-color:var(--accent); box-shadow:0 0 18px rgba(215,192,138,.22);}
-    #experience .timeline .item.focus::before{box-shadow:0 0 16px rgba(215,192,138,.55);}
+    #experience .timeline .item.focus::before{box-shadow:0 0 16px rgba(215,192,138,.55);} 
     .item h3{letter-spacing:-0.3px; margin:0 0 6px; font-size:18px; font-weight:500}
     .item .meta{font-size:13px; color:var(--muted)}
     .item ul{margin:10px 0 0 18px}
@@ -249,27 +249,7 @@ html:not(.light) .tool-logo:hover{filter:none;} /* reveal brand color on hover i
     #scrollProg{position:fixed;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));z-index:9999;box-shadow:0 2px 10px rgba(215,192,138,.4);}
 
     /* Premium: staggered reveal (uses data-idx) */
-    .reveal[data-idx]{transition-delay: calc(var(--idx, 0) * 60ms);}
-
-  /* Premium: avatar soft spotlight glow */
-    @keyframes haloGlow{0%{box-shadow:0 10px 30px rgb(0 0 0 / .35);}100%{box-shadow:0 14px 36px rgba(215,192,138,.35);} }
-    .avatar{animation:float 6s ease-in-out infinite, haloGlow 3.6s ease-in-out infinite alternate;}
-
-    /* Premium: page scroll progress bar */
-    #scrollProg{position:fixed;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));z-index:9999;box-shadow:0 2px 10px rgba(215,192,138,.4);}
-
-    /* Premium: staggered reveal (uses data-idx) */
-    .reveal[data-idx]{transition-delay: calc(var(--idx, 0) * 60ms);}
-
-  /* Premium: avatar soft spotlight glow */
-    @keyframes haloGlow{0%{box-shadow:0 10px 30px rgb(0 0 0 / .35);}100%{box-shadow:0 14px 36px rgba(215,192,138,.35);} }
-    .avatar{animation:float 6s ease-in-out infinite, haloGlow 3.6s ease-in-out infinite alternate;}
-
-    /* Premium: page scroll progress bar */
-    #scrollProg{position:fixed;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));z-index:9999;box-shadow:0 2px 10px rgba(215,192,138,.4);}
-
-    /* Premium: staggered reveal (uses data-idx) */
-    .reveal[data-idx]{transition-delay: calc(var(--idx, 0) * 60ms);}
+    .reveal[data-idx]{transition-delay: calc(var(--idx, 0) * 60ms);} 
 
   </style>
   <script>
@@ -732,57 +712,4 @@ html:not(.light) .tool-logo:hover{filter:none;} /* reveal brand color on hover i
   (function(){
     if(!('IntersectionObserver' in window)) return;
     const revealObs = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); revealObs.unobserve(e.target);} });
-    }, {threshold:.12});
-    document.querySelectorAll('.card, .item, .project, .avatar, h2, #about p, #about li').forEach(el=>{ el.classList.add('reveal'); revealObs.observe(el); });
-
-    const underlineObs = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('show-underline'); underlineObs.unobserve(entry.target);} });
-    }, {threshold:.25});
-    document.querySelectorAll('section').forEach(sec=>underlineObs.observe(sec));
-  })();
-
-  // Parallax background (kept)
-  (function(){
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(prefersReduced) return;
-    const l1 = document.getElementById('fin-layer-1');
-    const l2 = document.getElementById('fin-layer-2');
-    const l3 = document.getElementById('fin-layer-3');
-    const onScroll = ()=>{ const s=window.scrollY||0; if(l1) l1.style.setProperty('--y', `${-s*0.06}px`); if(l2) l2.style.setProperty('--y', `${s*0.04}px`); if(l3) l3.style.setProperty('--y', `${-s*0.02}px`); };
-    onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
-  })();
-
-  // Hero rotating skills flash (F) — keep running if present
-  (function(){
-    const el = document.getElementById('flash-skill');
-    if(!el) return;
-    const phrases = ['business analyst','financial analyst','data analyst','dashboard storyteller','SQL & Excel practitioner','Power BI analyst'];
-    let i = 0; let timer;
-    function cycle(){
-      el.classList.remove('on'); el.textContent='';
-      timer = setTimeout(()=>{ el.textContent = phrases[i % phrases.length]; el.classList.add('on'); i++; timer = setTimeout(cycle, 1200); }, 1000);
-    }
-    cycle();
-  })();
-
-  // Scroll progress width (kept)
-  (function(){
-    const bar = document.getElementById('scrollProg');
-    if(!bar) return;
-    const update = ()=>{ const h = document.documentElement; const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight); bar.style.width = (scrolled * 100).toFixed(1) + '%'; };
-    update(); window.addEventListener('scroll', update, {passive:true}); window.addEventListener('resize', update);
-  })();
-
-  // Final checks
-  (function(){
-    try{
-      console.assert(document.querySelectorAll('#education .card.item').length >= 1, 'Education cards should exist');
-      console.assert(typeof IntersectionObserver === 'function', 'IntersectionObserver must be available');
-      console.assert(document.querySelectorAll('.edu-percent').length >= 1, 'Education % counters exist');
-      console.log('%cAnimations A, B, D activated', 'color:#d7c08a');
-    }catch(e){console.warn('Test warning:', e);}
-  })();
-</script>
-</body>
-</html>
+      entries.forEach(e=>{ if(e.isIntersecting)
