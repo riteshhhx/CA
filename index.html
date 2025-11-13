@@ -69,7 +69,7 @@
       .hero-grid{grid-template-columns:1fr; text-align:center}
       .hero-grid > .avatar{justify-self:center; margin-bottom:12px}
     }
-    .avatar{width:140px;height:140px;border-radius:50%;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow);}
+    .avatar{width:140px;height:140px;border-radius:50%;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow);} 
     .avatar img{width:100%;height:100%;object-fit:cover;transform:translateZ(0);} 
     .avatar::before{content:"";position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(from 180deg,var(--accent),transparent 40%,var(--accent-2));filter:blur(6px);opacity:.55;z-index:0}
     .avatar::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(transparent 58%, rgba(215,192,138,.15));z-index:1;pointer-events:none}
@@ -196,7 +196,7 @@ html:not(.light) .tool-logo:hover{filter:none;} /* reveal brand color on hover i
     /* Dots and item spacing */
     #experience .timeline .item{position:relative; padding-left:28px}
     #experience .timeline .item::before{content:""; position:absolute; left:7px; top:10px; width:12px; height:12px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 0 rgba(215,192,138,.0); transition:.35s ease; opacity:.95}
-    #experience .timeline .item.focus{transform:translateY(-3px); border-color:var(--accent); box-shadow:0 0 18px rgba(215,192,138,.22);}
+    #experience .timeline .item.focus{transform:translateY(-3px); border-color:var(--accent); box-shadow:0 0 18px rgba(215,192,138,.22);} 
     #experience .timeline .item.focus::before{box-shadow:0 0 16px rgba(215,192,138,.55);} 
     .item h3{letter-spacing:-0.3px; margin:0 0 6px; font-size:18px; font-weight:500}
     .item .meta{font-size:13px; color:var(--muted)}
@@ -711,5 +711,104 @@ html:not(.light) .tool-logo:hover{filter:none;} /* reveal brand color on hover i
   // Reveal-on-scroll (A) and section headline underline (B)
   (function(){
     if(!('IntersectionObserver' in window)) return;
+    const revealEls = document.querySelectorAll('.card, .project, h2');
+    revealEls.forEach((el, idx)=>{ el.classList.add('reveal'); el.style.setProperty('--idx', idx); el.setAttribute('data-idx', idx); });
+
     const revealObs = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting)
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const target = e.target;
+          target.classList.add('show');
+          // if it's a section headline, also show underline on section
+          const sec = target.closest('section');
+          if(sec) sec.classList.add('show-underline');
+          revealObs.unobserve(target);
+        }
+      });
+    }, {threshold: 0.18});
+
+    revealEls.forEach(el=>revealObs.observe(el));
+  })();
+
+  // Flashline: rotating skill words
+  (function(){
+    const skills = ['Financial Modelling','Dashboard Storytelling','Data Cleaning','Forecasting','SQL & Queries','Insight Communication'];
+    const el = document.getElementById('flash-skill');
+    if(!el) return;
+    let i=0;
+    function showSkill(){
+      el.classList.remove('on');
+      setTimeout(()=>{
+        el.textContent = skills[i % skills.length];
+        el.classList.add('on');
+        i++;
+      }, 220);
+    }
+    showSkill();
+    setInterval(showSkill, 2400);
+  })();
+
+  // Scroll progress & background parallax
+  (function(){
+    const prog = document.getElementById('scrollProg');
+    const layers = document.querySelectorAll('.bg-finance .layer');
+    function onScroll(){
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      const sc = Math.max(0, Math.min(1, (window.scrollY || window.pageYOffset) / (docH || 1)));
+      if(prog) prog.style.width = (sc*100) + '%';
+      // parallax: small translation differences
+      layers.forEach((lay, idx)=>{
+        const depth = (idx+1) * 10; // px
+        lay.style.transform = `translateY(${(sc * depth) - (depth/2)}px)`;
+      });
+    }
+    window.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+  })();
+
+  // Tool logo interactions
+  (function(){
+    const tools = document.querySelectorAll('.tool');
+    const indicator = document.getElementById('toolIndicator');
+    tools.forEach((tool, idx)=>{
+      const logo = tool.querySelector('.tool-logo');
+      const label = tool.querySelector('.tool-label');
+      const name = logo.getAttribute('alt') || logo.getAttribute('data-tip') || ('Tool ' + (idx+1));
+      logo.addEventListener('click', ()=>{
+        tools.forEach(t=>{ t.classList.remove('clicked'); t.querySelector('.tool-label').classList.remove('bounce'); });
+        tool.classList.add('clicked');
+        if(label){ label.textContent = name; label.classList.add('bounce'); }
+        if(indicator){ indicator.textContent = name; indicator.classList.add('show'); setTimeout(()=>indicator.classList.remove('show'), 1800); }
+      });
+      // keyboard accessibility
+      logo.setAttribute('tabindex', '0');
+      logo.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); logo.click(); } });
+    });
+  })();
+
+  // Small interactive niceties: avatar tilt on pointer move
+  (function(){
+    const av = document.querySelector('.avatar');
+    if(!av) return;
+    av.addEventListener('pointermove', (e)=>{
+      const r = av.getBoundingClientRect();
+      const cx = r.left + r.width/2; const cy = r.top + r.height/2;
+      const dx = (e.clientX - cx) / (r.width/2); const dy = (e.clientY - cy) / (r.height/2);
+      av.style.transform = `perspective(600px) rotateX(${(-dy*4).toFixed(2)}deg) rotateY(${(dx*6).toFixed(2)}deg)`;
+    });
+    av.addEventListener('pointerleave', ()=>{ av.style.transform = ''; });
+  })();
+
+  // Accessibility: reduce-motion respects
+  (function(){
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if(mq && mq.matches){
+      document.documentElement.classList.add('reduce-motion');
+      // stop intervals & animations that rely on setInterval
+      // (for brevity this demo doesn't track intervals; in production keep handles and clear them)
+    }
+  })();
+  </script>
+</body>
+</html>
+
